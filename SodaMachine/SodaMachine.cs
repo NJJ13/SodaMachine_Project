@@ -10,7 +10,7 @@ namespace SodaMachine
     {
         //Member Variables (Has A)
         private List<Coin> _register;
-        private List<Can> _inventory;
+        private List<Can> _inventory;      
 
         //Constructor (Spawner)
         public SodaMachine()
@@ -19,6 +19,7 @@ namespace SodaMachine
             _inventory = new List<Can>();
             FillInventory();
             FillRegister();
+            
         }
 
         //Member Methods (Can Do)
@@ -26,7 +27,26 @@ namespace SodaMachine
         //A method to fill the sodamachines register with coin objects.
         public void FillRegister()
         {
-           
+            while (_register.Count < 11)
+            {
+                Coin dime = new Dime();
+                _register.Add(dime);
+            }
+            while (_register.Count < 31)
+            {
+                Coin nickel = new Nickel();
+                _register.Add(nickel);
+            }
+            while (_register.Count < 51)
+            {
+                Coin quarter = new Quarter();
+                _register.Add(quarter);
+            }
+            while (_register.Count < 101)
+            {
+                Coin penny = new Penny();
+                _register.Add(penny);
+            }           
         }
         //A method to fill the sodamachines inventory with soda can objects.
         public void FillInventory()
@@ -67,7 +87,7 @@ namespace SodaMachine
         //If the payment does not meet the cost of the soda: dispense payment back to the customer.
         private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)
         {
-           
+            double valueOfPayment = TotalCoinValue(payment);  
         }
         //Takes in the value of the amount of change needed.
         //Attempts to gather all the required coins from the sodamachine's register to make change.
