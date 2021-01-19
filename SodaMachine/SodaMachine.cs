@@ -95,7 +95,24 @@ namespace SodaMachine
         //If the payment does not meet the cost of the soda: dispense payment back to the customer.
         private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)
         {
-            double valueOfPayment = TotalCoinValue(payment);  
+            double valueOfPayment = TotalCoinValue(payment);
+            if (valueOfPayment < chosenSoda.Price)
+            {
+                customer.AddCoinsIntoWallet(payment);
+                Console.WriteLine("Transaction can not be completed. There was not enough money deposited in order to purchase " + chosenSoda.Price + ".");
+            }
+            else if (valueOfPayment == chosenSoda.Price)
+            {
+                customer.AddCanToBackpack(chosenSoda);
+                Console.WriteLine("Transaction complete. " + chosenSoda.Name + " has been dispensed");
+            }
+            else if (valueOfPayment > chosenSoda.Price)
+            {
+                double returnValue = (valueOfPayment - chosenSoda.Price);
+                List<Coin> retunedChange = GatherChange(returnValue);
+                customer.AddCoinsIntoWallet(retunedChange);
+
+            }
         }
         //Takes in the value of the amount of change needed.
         //Attempts to gather all the required coins from the sodamachine's register to make change.
