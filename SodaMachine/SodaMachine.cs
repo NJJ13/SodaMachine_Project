@@ -109,9 +109,18 @@ namespace SodaMachine
             else if (valueOfPayment > chosenSoda.Price)
             {
                 double returnValue = (valueOfPayment - chosenSoda.Price);
-                List<Coin> retunedChange = GatherChange(returnValue);
-                customer.AddCoinsIntoWallet(retunedChange);
-
+                List<Coin> returnedChange = GatherChange(returnValue);
+                if (returnedChange == null)
+                {
+                    customer.AddCoinsIntoWallet(payment);
+                    Console.WriteLine("Transaction can not be completed. Soda machine does not have enough change to complete the transaction.");
+                }
+                else
+                {
+                    customer.AddCanToBackpack(chosenSoda);
+                    customer.AddCoinsIntoWallet(returnedChange);
+                    Console.WriteLine("Transaction complete. " + chosenSoda.Name + " has been dispensed. " + returnValue + " has been returned.");
+                }
             }
         }
         //Takes in the value of the amount of change needed.
