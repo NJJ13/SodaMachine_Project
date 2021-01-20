@@ -139,7 +139,7 @@ namespace SodaMachine
         private List<Coin> GatherChange(double changeValue)
         {
             List<Coin> changeToDispense = new List<Coin>();
-            do
+            while (changeValue != 0)
             {
                 if (changeValue >= .25)
                 {
@@ -148,62 +148,31 @@ namespace SodaMachine
                         changeToDispense.Add(GetCoinFromRegister("Quarter"));
                         changeValue -= .25;
                     }
-                    else if (RegisterHasCoin("Dime"))
+                else if(changeValue >= .10)
+                     if (RegisterHasCoin("Dime"))
                     {
                         changeToDispense.Add(GetCoinFromRegister("Dime"));
                         changeValue -= .10;
                     }
-                    else if (RegisterHasCoin("Nickel"))
-                    {
-                        changeToDispense.Add(GetCoinFromRegister("Nickel"));
-                        changeValue -= .05;
-                    }
-                    else if (RegisterHasCoin("Penny"))
-                    {
-                        changeToDispense.Add(GetCoinFromRegister("Penny"));
-                        changeValue -= .01;
-                    }
-                }
-                else if (changeValue >= .10)
-                {
-                    if (RegisterHasCoin("Dime"))
-                    {
-                        changeToDispense.Add(GetCoinFromRegister("Dime"));
-                        changeValue -= .10;
-                    }
-                    else if (RegisterHasCoin("Nickel"))
-                    {
-                        changeToDispense.Add(GetCoinFromRegister("Nickel"));
-                        changeValue -= .05;
-                    }
-                    else if (RegisterHasCoin("Penny"))
-                    {
-                        changeToDispense.Add(GetCoinFromRegister("Penny"));
-                        changeValue -= .01;
-                    }
-                }
-                else if (changeValue >= .05)
-                {
+                else if(changeValue >= .05)
                     if (RegisterHasCoin("Nickel"))
                     {
                         changeToDispense.Add(GetCoinFromRegister("Nickel"));
                         changeValue -= .05;
                     }
-                    else if (RegisterHasCoin("Penny"))
-                    {
-                        changeToDispense.Add(GetCoinFromRegister("Penny"));
-                        changeValue -= .01;
-                    }
-                }
                 else if (changeValue >= .01)
-                {
                     if (RegisterHasCoin("Penny"))
                     {
                         changeToDispense.Add(GetCoinFromRegister("Penny"));
                         changeValue -= .01;
                     }
                 }
-            } while (changeValue != 0);
+                else if (changeValue != 0 && RegisterHasCoin("Penny") == false);
+                {
+                    changeToDispense.Clear();
+                    return null;
+                }
+            } 
 
             return changeToDispense;
         }
