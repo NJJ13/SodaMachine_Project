@@ -85,8 +85,14 @@ namespace SodaMachine
         //Gets a soda from the inventory based on the name of the soda.
         private Can GetSodaFromInventory(string nameOfSoda)
         {
-            nameOfSoda = UserInterface.SodaSelection(_inventory);
-            return 
+            foreach (Can can in _inventory)
+            {
+                if(nameOfSoda == can.Name)
+                {
+                    return can;
+                }
+            }
+            return null;
         }
 
         //This is the main method for calculating the result of the transaction.
@@ -132,7 +138,74 @@ namespace SodaMachine
         //If the change cannot be made, return null.
         private List<Coin> GatherChange(double changeValue)
         {
-            
+            List<Coin> changeToDispense = new List<Coin>();
+            do
+            {
+                if (changeValue >= .25)
+                {
+                    if (RegisterHasCoin("Quarter"))
+                    {
+                        changeToDispense.Add(GetCoinFromRegister("Quarter"));
+                        changeValue -= .25;
+                    }
+                    else if (RegisterHasCoin("Dime"))
+                    {
+                        changeToDispense.Add(GetCoinFromRegister("Dime"));
+                        changeValue -= .10;
+                    }
+                    else if (RegisterHasCoin("Nickel"))
+                    {
+                        changeToDispense.Add(GetCoinFromRegister("Nickel"));
+                        changeValue -= .05;
+                    }
+                    else if (RegisterHasCoin("Penny"))
+                    {
+                        changeToDispense.Add(GetCoinFromRegister("Penny"));
+                        changeValue -= .01;
+                    }
+                }
+                else if (changeValue >= .10)
+                {
+                    if (RegisterHasCoin("Dime"))
+                    {
+                        changeToDispense.Add(GetCoinFromRegister("Dime"));
+                        changeValue -= .10;
+                    }
+                    else if (RegisterHasCoin("Nickel"))
+                    {
+                        changeToDispense.Add(GetCoinFromRegister("Nickel"));
+                        changeValue -= .05;
+                    }
+                    else if (RegisterHasCoin("Penny"))
+                    {
+                        changeToDispense.Add(GetCoinFromRegister("Penny"));
+                        changeValue -= .01;
+                    }
+                }
+                else if (changeValue >= .05)
+                {
+                    if (RegisterHasCoin("Nickel"))
+                    {
+                        changeToDispense.Add(GetCoinFromRegister("Nickel"));
+                        changeValue -= .05;
+                    }
+                    else if (RegisterHasCoin("Penny"))
+                    {
+                        changeToDispense.Add(GetCoinFromRegister("Penny"));
+                        changeValue -= .01;
+                    }
+                }
+                else if (changeValue >= .01)
+                {
+                    if (RegisterHasCoin("Penny"))
+                    {
+                        changeToDispense.Add(GetCoinFromRegister("Penny"));
+                        changeValue -= .01;
+                    }
+                }
+            } while (changeValue != 0);
+
+            return changeToDispense;
         }
         //Reusable method to check if the register has a coin of that name.
         //If it does have one, return true.  Else, false.
@@ -186,5 +259,6 @@ namespace SodaMachine
                 _register.Add(coin);
             }
         }
+        
     }
 }
