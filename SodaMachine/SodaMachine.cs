@@ -138,12 +138,28 @@ namespace SodaMachine
         //If it does have one, return true.  Else, false.
         private bool RegisterHasCoin(string name)
         {
-           
+            foreach (Coin coin in _register)
+            {
+                if (coin.Name == name)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         //Reusable method to return a coin from the register.
         //Returns null if no coin can be found of that name.
         private Coin GetCoinFromRegister(string name)
         {
+            foreach (Coin coin in _register)
+            {
+                if (coin.Name == name)
+                {
+                    return coin;
+                }
+            }
+            return null;
+            
             
         }
         //Takes in the total payment amount and the price of can to return the change amount.
