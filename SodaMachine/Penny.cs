@@ -9,6 +9,7 @@ namespace SodaMachine
     class Penny:Coin
     {
         //Member Variables (Has A)
+        
 
         //Constructor (Spawner)
         public Penny()
