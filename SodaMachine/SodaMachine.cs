@@ -99,12 +99,12 @@ namespace SodaMachine
             if (valueOfPayment < chosenSoda.Price)
             {
                 customer.AddCoinsIntoWallet(payment);
-                Console.WriteLine("Transaction can not be completed. There was not enough money deposited in order to purchase " + chosenSoda.Price + ".");
+                UserInterface.DisplayError("Transaction can not be completed. There was not enough money deposited in order to purchase " + chosenSoda.Name + ".");
             }
             else if (valueOfPayment == chosenSoda.Price)
             {
                 customer.AddCanToBackpack(chosenSoda);
-                Console.WriteLine("Transaction complete. " + chosenSoda.Name + " has been dispensed");
+                UserInterface.EndMessage(chosenSoda.Name, 0);
             }
             else if (valueOfPayment > chosenSoda.Price)
             {
@@ -113,13 +113,13 @@ namespace SodaMachine
                 if (returnedChange == null)
                 {
                     customer.AddCoinsIntoWallet(payment);
-                    Console.WriteLine("Transaction can not be completed. Soda machine does not have enough change to complete the transaction.");
+                    UserInterface.DisplayError("Transaction can not be completed. Soda machine does not have enough change to complete the transaction.");
                 }
                 else
                 {
                     customer.AddCanToBackpack(chosenSoda);
                     customer.AddCoinsIntoWallet(returnedChange);
-                    Console.WriteLine("Transaction complete. " + chosenSoda.Name + " has been dispensed. " + returnValue + " has been returned.");
+                    UserInterface.EndMessage(chosenSoda.Name, returnValue);
                 }
             }
         }
