@@ -45,6 +45,7 @@ namespace SodaMachine
             {
                 if (coin.name == coinName)
                 {
+                    Wallet.Coins.Remove(coin);
                     return coin;
                 }
             }
