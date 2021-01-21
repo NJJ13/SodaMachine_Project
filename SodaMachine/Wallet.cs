@@ -14,11 +14,11 @@ namespace SodaMachine
         public Wallet()
         {
             Coins = new List<Coin>();
-            FillRegister();
+            FillWallet();
         }
         //Member Methods (Can Do)
         //Fills wallet with starting money
-        private void FillRegister()
+        private void FillWallet()
         {
             for (int i = 0; i < 12; i++)
             {

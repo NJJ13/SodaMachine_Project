@@ -43,7 +43,7 @@ namespace SodaMachine
         {
             foreach (Coin coin in Wallet.Coins)
             {
-                if (coin.Name == coinName)
+                if (coin.name == coinName)
                 {
                     return coin;
                 }

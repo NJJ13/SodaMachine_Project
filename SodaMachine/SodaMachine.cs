@@ -27,26 +27,32 @@ namespace SodaMachine
         //A method to fill the sodamachines register with coin objects.
         public void FillRegister()
         {
-            while (_register.Count < 10)
+            while (_register.Count < 40)
             {
                 Coin dime = new Dime();
                 _register.Add(dime);
+                Coin nickel = new Nickel();
+                _register.Add(nickel);
+                Coin quarter = new Quarter();
+                _register.Add(quarter);
+                Coin penny = new Penny();
+                _register.Add(penny);
             }
-            while (_register.Count < 30)
+            while (_register.Count < 70)
             {
                 Coin nickel = new Nickel();
                 _register.Add(nickel);
-            }
-            while (_register.Count < 50)
-            {
                 Coin quarter = new Quarter();
                 _register.Add(quarter);
+                Coin penny = new Penny();
+                _register.Add(penny);
             }
             while (_register.Count < 100)
             {
                 Coin penny = new Penny();
                 _register.Add(penny);
-            }           
+            }
+                      
         }
         //A method to fill the sodamachines inventory with soda can objects.
         public void FillInventory()
@@ -89,7 +95,7 @@ namespace SodaMachine
         {
             foreach (Can can in _inventory)
             {
-                if(nameOfSoda == can.Name)
+                if(nameOfSoda == can.name)
                 {
                     return can;
                 }
@@ -111,13 +117,13 @@ namespace SodaMachine
             if (valueOfPayment < chosenSoda.Price)
             {
                 customer.AddCoinsIntoWallet(payment);
-                UserInterface.DisplayError("Transaction can not be completed. There was not enough money deposited in order to purchase " + chosenSoda.Name + ".");
+                UserInterface.DisplayError("Transaction can not be completed. There was not enough money deposited in order to purchase " + chosenSoda.name + ".");
             }
             else if (amountOfChange == 0)
             {
                 DepositCoinsIntoRegister(payment);
                 customer.AddCanToBackpack(chosenSoda);
-                UserInterface.EndMessage(chosenSoda.Name, 0);
+                UserInterface.EndMessage(chosenSoda.name, 0);
             }
             else if (amountOfChange > 0)
             {
@@ -132,7 +138,7 @@ namespace SodaMachine
                     DepositCoinsIntoRegister(payment);
                     customer.AddCanToBackpack(chosenSoda);
                     customer.AddCoinsIntoWallet(returnedChange);
-                    UserInterface.EndMessage(chosenSoda.Name, amountOfChange);
+                    UserInterface.EndMessage(chosenSoda.name, amountOfChange);
                 }
             }
         }
@@ -149,7 +155,7 @@ namespace SodaMachine
                 {
                     if (coin.Value < changeValue)
                     {
-                        changeToDispense.Add(GetCoinFromRegister(coin.Name));
+                        changeToDispense.Add(GetCoinFromRegister(coin.name));
                         changeValue -= coin.Value;
                     }
                     else if (changeValue != 0 && RegisterHasCoin("Penny") == false)
@@ -168,7 +174,7 @@ namespace SodaMachine
         {
             foreach (Coin coin in _register)
             {
-                if (coin.Name == name)
+                if (coin.name == name)
                 {
                     return true;
                 }
@@ -181,7 +187,7 @@ namespace SodaMachine
         {
             foreach (Coin coin in _register)
             {
-                if (coin.Name == name)
+                if (coin.name == name)
                 {
                     return coin;
                 }

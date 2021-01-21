@@ -90,14 +90,14 @@ namespace SodaMachine
             List<string> previousNames = new List<string>();
             foreach (Can can in SodaOptions)
             {
-                if (previousNames.Contains(can.Name))
+                if (previousNames.Contains(can.name))
                 {
                     continue;
                 }
                 else
                 {
                     UniqueCans.Add(can);
-                    previousNames.Add(can.Name);
+                    previousNames.Add(can.name);
                 }
             }
             return UniqueCans;
@@ -110,7 +110,7 @@ namespace SodaMachine
            List<Can> uniqueCans = GetUniqueCans(SodaOptions);
            foreach(Can can in uniqueCans)
            {
-                Console.WriteLine($"\t{can.Name}");
+                Console.WriteLine($"\t{can.name}");
            }
         }
         //Takes in the inventory of sodas to provide the user with an interface for their selection.
@@ -124,7 +124,7 @@ namespace SodaMachine
                 Console.WriteLine("\nPlease choose from the following.");
                 for (int i = 0; i < uniqueCans.Count; i++)
                 {
-                    Console.WriteLine($"\n\tEnter -{i + 1}- for {uniqueCans[i].Name} : ${uniqueCans[i].Price}");
+                    Console.WriteLine($"\n\tEnter -{i + 1}- for {uniqueCans[i].name} : ${uniqueCans[i].Price}");
                 }
                 int.TryParse(Console.ReadLine(), out selection);
                 validatedSodaSelection = ValidateSodaSelection(selection, uniqueCans);
@@ -138,7 +138,7 @@ namespace SodaMachine
         {
             if(input >= 0 && input <= uniqueCans.Count)
             {
-                return Tuple.Create(true, uniqueCans[input-1].Name);
+                return Tuple.Create(true, uniqueCans[input-1].name);
             }
             else
             {
@@ -173,7 +173,7 @@ namespace SodaMachine
         public static void DisplayCost(Can selectedSoda)
         {
             Console.Clear();
-            Console.WriteLine($"\nYou have selected {selectedSoda.Name}.  This option will cost {selectedSoda.Price} \n");
+            Console.WriteLine($"\nYou have selected {selectedSoda.name}.  This option will cost {selectedSoda.Price} \n");
         }
         //Displays the total value of a list of coins.
         public static void DiplayTotalValueOfCoins(List<Coin> coinsToTotal)

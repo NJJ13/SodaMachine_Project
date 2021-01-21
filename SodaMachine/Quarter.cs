@@ -14,7 +14,7 @@ namespace SodaMachine
         public Quarter()
         {
             value = .25;
-            Name = "Quarter";
+            name = "Quarter";
         }
 
         //Member Methods (Can Do)
