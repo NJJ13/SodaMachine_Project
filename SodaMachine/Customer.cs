@@ -17,7 +17,6 @@ namespace SodaMachine
         {
             Wallet = new Wallet();
             Backpack = new Backpack();
-            StarterCoins();
         }
         //Member Methods (Can Do)
 
@@ -64,27 +63,6 @@ namespace SodaMachine
         {
             Backpack.cans.Add(purchasedCan);
         }
-        public void StarterCoins()
-        {
-            double totalWalletValue = 0;
-            while (totalWalletValue < 5)
-            {
-                Coin quarter = new Quarter();
-                Coin dime = new Dime();
-                Coin nickel = new Nickel();
-                Coin penny = new Penny();
-                Wallet.Coins.Add(quarter);
-                totalWalletValue += quarter.Value;
-                Wallet.Coins.Add(dime);
-                totalWalletValue += dime.Value;
-                Wallet.Coins.Add(nickel);
-                totalWalletValue += nickel.Value;
-                Wallet.Coins.Add(penny);
-                totalWalletValue += penny.Value;
-            }
-        }
-            
-         
     }
 }
 
