@@ -80,7 +80,9 @@ namespace SodaMachine
         {
             string nameofSoda = UserInterface.SodaSelection(_inventory);
             Can selectedCan = GetSodaFromInventory(nameofSoda);
-            string validCustomerCoins = UserInterface.CoinSelection(selectedCan, customer.Wallet.Coins);
+            List<Coin> payment = customer.GatherCoinsFromWallet(selectedCan);
+            CalculateTransaction(payment, selectedCan, customer);
+
         }
         //Gets a soda from the inventory based on the name of the soda.
         private Can GetSodaFromInventory(string nameOfSoda)
@@ -105,20 +107,21 @@ namespace SodaMachine
         private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)
         {
             double valueOfPayment = TotalCoinValue(payment);
+            double amountOfChange = DetermineChange(valueOfPayment, chosenSoda.Price);
             if (valueOfPayment < chosenSoda.Price)
             {
                 customer.AddCoinsIntoWallet(payment);
                 UserInterface.DisplayError("Transaction can not be completed. There was not enough money deposited in order to purchase " + chosenSoda.Name + ".");
             }
-            else if (valueOfPayment == chosenSoda.Price)
+            else if (amountOfChange == 0)
             {
+                DepositCoinsIntoRegister(payment);
                 customer.AddCanToBackpack(chosenSoda);
                 UserInterface.EndMessage(chosenSoda.Name, 0);
             }
-            else if (valueOfPayment > chosenSoda.Price)
+            else if (amountOfChange > 0)
             {
-                double returnValue = (valueOfPayment - chosenSoda.Price);
-                List<Coin> returnedChange = GatherChange(returnValue);
+                List<Coin> returnedChange = GatherChange(amountOfChange);
                 if (returnedChange == null)
                 {
                     customer.AddCoinsIntoWallet(payment);
@@ -126,9 +129,10 @@ namespace SodaMachine
                 }
                 else
                 {
+                    DepositCoinsIntoRegister(payment);
                     customer.AddCanToBackpack(chosenSoda);
                     customer.AddCoinsIntoWallet(returnedChange);
-                    UserInterface.EndMessage(chosenSoda.Name, returnValue);
+                    UserInterface.EndMessage(chosenSoda.Name, amountOfChange);
                 }
             }
         }
