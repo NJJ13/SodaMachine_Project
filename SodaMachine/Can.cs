@@ -9,10 +9,10 @@ namespace SodaMachine
     abstract class Can
     {
         //Member Variables (Has A)
-        protected double price;
+        protected decimal price;
         public string name;
 
-        public double Price
+        public decimal Price
         { 
             get 
             {

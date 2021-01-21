@@ -178,7 +178,7 @@ namespace SodaMachine
         //Displays the total value of a list of coins.
         public static void DiplayTotalValueOfCoins(List<Coin> coinsToTotal)
         {
-            double totalValue = 0;
+            decimal totalValue = 0;
             foreach(Coin coin in coinsToTotal)
             {
                 totalValue += coin.Value;
@@ -186,7 +186,7 @@ namespace SodaMachine
             Console.WriteLine($"You currently have ${totalValue} in hand");
         }
         //Used for any error messages.  Has a built in read line for readablity and console clear after.
-        public static void EndMessage(string sodaName, double changeAmount)
+        public static void EndMessage(string sodaName, decimal changeAmount)
         {
             Console.WriteLine($"Enjoy your {sodaName}.");
             if(changeAmount > 0)

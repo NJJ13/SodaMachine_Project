@@ -9,10 +9,10 @@ namespace SodaMachine
     class Coin
     {
         //Member Variables (Has A)
-        protected double value;
+        protected decimal value;
         public string name;
 
-        public double Value
+        public decimal Value
         {
             get
             {

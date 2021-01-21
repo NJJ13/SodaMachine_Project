@@ -27,7 +27,7 @@ namespace SodaMachine
         public List<Coin> GatherCoinsFromWallet(Can selectedCan)
         {
             List<Coin> gatheredCoins = new List<Coin>();
-            double totalValueGatheredcoins = 0;
+            decimal totalValueGatheredcoins = 0;
             while (totalValueGatheredcoins < selectedCan.Price)
             {
                 Coin gatheredCoin = GetCoinFromWallet(UserInterface.CoinSelection(selectedCan, Wallet.Coins));
