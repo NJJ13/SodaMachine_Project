@@ -153,7 +153,7 @@ namespace SodaMachine
             {
                 foreach (Coin coin in _register)
                 {
-                    if (coin.Value < changeValue)
+                    if (coin.Value <= changeValue)
                     {
                         changeToDispense.Add(GetCoinFromRegister(coin.name));
                         changeValue -= coin.Value;
