@@ -144,6 +144,7 @@ namespace SodaMachine
                 }
             }
         }
+        
         //Takes in the value of the amount of change needed.
         //Attempts to gather all the required coins from the sodamachine's register to make change.
         //Returns the list of coins as change to despense.

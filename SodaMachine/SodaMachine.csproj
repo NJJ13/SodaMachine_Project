@@ -47,6 +47,7 @@
     <Compile Include="Can.cs" />
     <Compile Include="Coin.cs" />
     <Compile Include="Cola.cs" />
+    <Compile Include="CreditCard.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Dime.cs" />
     <Compile Include="Nickel.cs" />
