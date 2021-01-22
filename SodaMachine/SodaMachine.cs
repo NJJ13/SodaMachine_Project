@@ -122,6 +122,7 @@ namespace SodaMachine
             else if (amountOfChange == 0)
             {
                 DepositCoinsIntoRegister(payment);
+                _inventory.Remove(chosenSoda);
                 customer.AddCanToBackpack(chosenSoda);
                 UserInterface.EndMessage(chosenSoda.name, 0);
             }
@@ -136,6 +137,7 @@ namespace SodaMachine
                 else
                 {
                     DepositCoinsIntoRegister(payment);
+                    _inventory.Remove(chosenSoda);
                     customer.AddCanToBackpack(chosenSoda);
                     customer.AddCoinsIntoWallet(returnedChange);
                     UserInterface.EndMessage(chosenSoda.name, amountOfChange);
@@ -157,6 +159,10 @@ namespace SodaMachine
                     {
                         changeToDispense.Add(GetCoinFromRegister(coin.name));
                         changeValue -= coin.Value;
+                    }
+                    if(changeValue == 0)
+                    {
+                        break;
                     }
                     else if (changeValue != 0 && RegisterHasCoin("Penny") == false)
                     {

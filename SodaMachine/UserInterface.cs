@@ -194,6 +194,7 @@ namespace SodaMachine
                 Console.WriteLine($"Despensing ${changeAmount}");
             }
             Console.ReadLine();
+        
         }
     }
 }
