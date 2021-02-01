@@ -31,6 +31,10 @@ namespace SodaMachine
             while (totalValueGatheredcoins < selectedCan.Price)
             {
                 Coin gatheredCoin = GetCoinFromWallet(UserInterface.CoinSelection(selectedCan, Wallet.Coins));
+                if(gatheredCoin == null)
+                {
+                    break;
+                }
                 gatheredCoins.Add(gatheredCoin);
                 totalValueGatheredcoins += gatheredCoin.Value;
             }
@@ -47,6 +51,10 @@ namespace SodaMachine
                 {
                     Wallet.Coins.Remove(coin);
                     return coin;
+                }
+                if(coinName == "Done")
+                {
+                    break;
                 }
             }
             return null;

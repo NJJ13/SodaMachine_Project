@@ -10,13 +10,15 @@ namespace SodaMachine
     {
         //Member Variables (Has A)
         private List<Coin> _register;
-        private List<Can> _inventory;      
+        private List<Can> _inventory;
+        private List<decimal> creditCardPayments;
 
         //Constructor (Spawner)
         public SodaMachine()
         {
             _register = new List<Coin>();
             _inventory = new List<Can>();
+            creditCardPayments = new List<decimal>();
             FillInventory();
             FillRegister();
             
@@ -114,10 +116,29 @@ namespace SodaMachine
         {
             decimal valueOfPayment = TotalCoinValue(payment);
             decimal amountOfChange = DetermineChange(valueOfPayment, chosenSoda.Price);
-            if (valueOfPayment < chosenSoda.Price)
+            if (amountOfChange < 0)
             {
-                customer.AddCoinsIntoWallet(payment);
-                UserInterface.DisplayError("Transaction can not be completed. There was not enough money deposited in order to purchase " + chosenSoda.name + ".");
+                decimal remainingBalance = chosenSoda.Price - valueOfPayment;
+                UserInterface.OutputText("There was not enough coins deposited in order to purchase " + chosenSoda.name + ".");
+                bool willProceed = UserInterface.ContinuePrompt("Would you like to put the remaining balance of " + (remainingBalance) + " on your credit card ? (y/n)");
+                if (willProceed == true)
+                {
+                    if (customer.Wallet.creditCard.Value > remainingBalance)
+                    {
+                        DepositCoinsIntoRegister(payment);
+                        ChargeCreditCard(remainingBalance, customer.Wallet.creditCard);
+                        _inventory.Remove(chosenSoda);
+                        customer.AddCanToBackpack(chosenSoda);
+                        UserInterface.OutputText("Your credit card was charged " + remainingBalance + ".");
+                        UserInterface.EndMessage(chosenSoda.name, 0);
+                    } 
+                }
+                else
+                {
+                    customer.AddCoinsIntoWallet(payment);
+                    UserInterface.DisplayError("Transaction can not be completed. There was not enough money deposited in order to purchase " + chosenSoda.name + ".");
+                }
+                
             }
             else if (amountOfChange == 0)
             {
@@ -144,7 +165,6 @@ namespace SodaMachine
                 }
             }
         }
-        
         //Takes in the value of the amount of change needed.
         //Attempts to gather all the required coins from the sodamachine's register to make change.
         //Returns the list of coins as change to despense.
@@ -154,23 +174,50 @@ namespace SodaMachine
             List<Coin> changeToDispense = new List<Coin>();
             while (changeValue > 0)
             {
-                foreach (Coin coin in _register)
+                while (changeValue >= .25m)
                 {
-                    if (coin.Value <= changeValue)
+                    foreach (Coin coin in _register)
                     {
-                        changeToDispense.Add(GetCoinFromRegister(coin.name));
-                        changeValue -= coin.Value;
-                    }
-                    if(changeValue == 0)
-                    {
+                        changeToDispense.Add(GetCoinFromRegister("Quarter"));
+                        changeValue -= .25m;
                         break;
                     }
-                    else if (changeValue != 0 && RegisterHasCoin("Penny") == false)
+                }
+                while (changeValue >= .10m)
+                {
+                    foreach (Coin coin in _register)
                     {
-                        changeToDispense.AddRange(_register);
-                        changeToDispense.Clear();
-                        return null;
+                        changeToDispense.Add(GetCoinFromRegister("Dime"));
+                        changeValue -= .10m;
+                        break;
                     }
+                }
+                while (changeValue >= .05m)
+                {
+                    foreach (Coin coin in _register)
+                    {
+                        changeToDispense.Add(GetCoinFromRegister("Nickel"));
+                        changeValue -= .05m;
+                        break;
+                    }
+                }
+                if (changeValue >= .01m)
+                {
+                    foreach (Coin coin in _register)
+                    {
+                        changeToDispense.Add(GetCoinFromRegister("Penny"));
+                        changeValue -= .01m;
+                    }
+                }
+                if (changeValue == 0)
+                {
+                    break;
+                }
+                else if (changeValue != 0 && RegisterHasCoin("Penny") == false)
+                {
+                    changeToDispense.AddRange(_register);
+                    changeToDispense.Clear();
+                    return null;
                 }
             }
             return changeToDispense;
@@ -226,6 +273,11 @@ namespace SodaMachine
             {
                 _register.Add(coin);
             }
+        }
+        private void ChargeCreditCard(decimal remainingBalance, CreditCard creditCard)
+        {
+            creditCard.value -= remainingBalance;
+            creditCardPayments.Add(remainingBalance);            
         }
         
     }

@@ -8,7 +8,7 @@ namespace SodaMachine
 {
     public class CreditCard
     {
-        protected decimal value;
+        public decimal value;
         public string name;
 
         public CreditCard()
